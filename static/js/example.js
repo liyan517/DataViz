@@ -6,113 +6,8 @@ function makeDashBoards(error, response) {
 
 }
 
-var LineChart = React.createClass({
-    makeGraphs: function(testData, ndx){
-        var dateDim = ndx.dimension(function(d) { return d["year"]; });
-
-        //Create calculate
-        var numCourseByDate = dateDim.group().reduceSum(function(d) {
-            return d["count"];
-        });
-
-        //Charts
-        var timeChart = dc.barChart("#time-chart");
 
 
-
-        timeChart
-            .width(768)
-            .height(380)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .brushOn(false)
-            .xAxisLabel('Fruit')
-            .yAxisLabel('Quantity Sold')
-            .dimension(dateDim)
-            .group(numCourseByDate);
-
-        dc.renderAll();
-
-    },
-
-
-    componentDidMount: function() {
-        var $this = $(ReactDOM.findDOMNode(this));
-        this.makeGraphs(this.props.data, this.props.ndx)
-        // set el height and width etc.
-    },
-    render: function() {
-        return (
-            <div class="col-sm-12">
-                <div class="chart-wrapper">
-                    <div class="chart-title">
-                        {this.props.title}
-                    </div>
-                    <div class="chart-stage">
-                        <div id="line-chart"></div>
-                    </div>
-                </div>
-            </div>
-        );
-    },
-
-    }
-);
-
-
-var BarChart = React.createClass({
-
-    makeGraphs: function(testData, ndx){
-        var dateDim = ndx.dimension(function(d) { return d["year"]; });
-
-        //Create calculate
-        var numCourseByDate = dateDim.group().reduceSum(function(d) {
-            return d["count"];
-        });
-
-        //Charts
-        var barChart = dc.barChart("#bar-chart");
-
-
-
-        barChart
-            .width(300)
-            .height(300)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .brushOn(false)
-            .xAxisLabel('Year')
-            .yAxisLabel('Count')
-            .dimension(dateDim)
-            .group(numCourseByDate);
-
-        // dc.renderAll();
-
-    },
-
-
-    componentDidMount: function() {
-        var $this = $(ReactDOM.findDOMNode(this));
-        this.makeGraphs(this.props.data, this.props.ndx)
-        // set el height and width etc.
-    },
-
-    render: function() {
-        return (
-            <div className="col-sm-6">
-                <div className="chart-wrapper">
-                    <div className="chart-title">
-                        Number of Donations
-                    </div>
-                    <div className="chart-stage">
-                        <div id="bar-chart"></div>
-                    </div>
-                </div>
-            </div>
-        );
-    },
-
-});
 
 var DashBoard = React.createClass({
     getInitialState: function (){
@@ -154,17 +49,7 @@ var DashBoard = React.createClass({
                             </div>
                         </div>
                         <BarChart data={this.state.data} ndx={this.state.ndx}/>
-
-                        <div className="col-sm-6">
-                            <div className="chart-wrapper">
-                                <div className="chart-title">
-                                    Poverty Level
-                                </div>
-                                <div className="chart-stage">
-                                    <div id="poverty-level-row-chart"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <PieChart data={this.state.data} ndx={this.state.ndx} title={"This is Pie"}/>
 
                     </div>
                 </div>
