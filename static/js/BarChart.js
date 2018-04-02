@@ -1,7 +1,12 @@
 
 var BarChart = React.createClass({
+    getInitialState: function (){
+        return {
+            chart: null
+        }
+    },
 
-    makeGraphs: function(testData, ndx){
+    makeGraphs: function(chart, testData, ndx){
         var dateDim = ndx.dimension(function(d) { return d["year"]; });
 
         //Create calculate
@@ -25,6 +30,7 @@ var BarChart = React.createClass({
             .dimension(dateDim)
             .group(numCourseByDate);
 
+
         // dc.renderAll();
 
     },
@@ -32,19 +38,31 @@ var BarChart = React.createClass({
 
     componentDidMount: function() {
         var $this = $(ReactDOM.findDOMNode(this));
-        this.makeGraphs(this.props.data, this.props.ndx)
+        this.makeGraphs(this.state.chart, this.props.data, this.props.ndx)
         // set el height and width etc.
     },
 
     render: function() {
+        const style_css = {
+            display: 'none'
+        };
         return (
+
             <div className="col-sm-6">
                 <div className="chart-wrapper">
                     <div className="chart-title">
-                        Number of Donations
+                        {this.props.title}
                     </div>
                     <div className="chart-stage">
-                        <div id="bar-chart"></div>
+                        <div id="bar-chart">
+                            <span className="reset" style={style_css}>Selected: <span
+                                className="filter"></span></span>
+                            <a className="reset" href="javascript:{barChart}.filterAll();dc.redrawAll();"
+                               style={style_css}> reset</a>
+
+                            <div className="clearfix"></div>
+
+                        </div>
                     </div>
                 </div>
             </div>

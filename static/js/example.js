@@ -1,3 +1,8 @@
+ReactDOM.render(
+    <UploadBar/>,
+    document.getElementById('upload-bar')
+);
+
 queue()
     .defer(d3.csv, "static/test/test.csv")
     .await(makeGraphs_react);
@@ -48,7 +53,7 @@ var DashBoard = React.createClass({
                                 </div>
                             </div>
                         </div>
-                        <BarChart data={this.state.data} ndx={this.state.ndx}/>
+                        <BarChart data={this.state.data} ndx={this.state.ndx} title={"This is Bar"}/>
                         <PieChart data={this.state.data} ndx={this.state.ndx} title={"This is Pie"}/>
 
                     </div>
