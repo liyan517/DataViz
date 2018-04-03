@@ -16,7 +16,12 @@ FIELDS = {'school_state': True, 'resource_type': True, 'poverty_level': True, 'd
 
 @app.route("/")
 def index():
-    return render_template("index_test.html")
+    return render_template("index1.html")
+
+
+@app.route("/app")
+def app_route():
+    return render_template("index.html")
 
 
 @app.route("/donorschoose/projects")

@@ -10,3 +10,26 @@
     fill: black;
     font-size: 12px;
 }
+
+.bg{
+    background-image: url("../img/TEST.jpg");
+
+    /* Full height */
+    height: 100%;
+    opacity: 0.5;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#splashscreen{
+    position: fixed;
+    top: 30%;
+    left: 30%;
+
+}
+
+#mainload{
+    width: 100%;
+}
