@@ -17,6 +17,10 @@ function makeDashBoards(error, response) {
 var DashBoard = React.createClass({
     getInitialState: function (){
         var data = this.props.data;
+        var renderInst = this.props.inst
+
+
+
         var dateFormat = d3.time.format("%Y-%m-%d");
         data.forEach(function(d) {
             d["year"] = d["year"];
@@ -27,7 +31,8 @@ var DashBoard = React.createClass({
         var ndx = crossfilter(data);
         return {
           ndx: ndx,
-          data: data
+          data: data,
+          renderInst: renderInst
         };
     },
     componentDidMount: function() {
@@ -36,61 +41,38 @@ var DashBoard = React.createClass({
         // set el height and width etc.
     },
 
+    getChart: function(charType){
+      if (charType == 'pie'){
+          return <PieChart/>;
+      }else if (charType == 'bar') {
+          return <BarChart />
+      }
+    },
+
+
     render: function () {
         return(
             <div className="row">
+            {(function() {
+                for (var i = 0; i < this.state.renderInst.length; i++) {
+                    var chart = this.state.renderInst.charts[i]
+                    var charType = chart.chart;
+                    switch(charType) {
+                        case 'pie':
+                            return <PieChart data={this.props.data} />;
+                        case 'bar':
+                            return <BarChart data={this.props.data} />;
 
-                <div className="col-sm-6">
-                    <div className="row">
+                        default:
+                            return null;
+                    }
 
-                        <div className="col-sm-12">
-                            <div className="chart-wrapper">
-                                <div className="chart-title">
-                                    Number of Donations
-                                </div>
-                                <div className="chart-stage">
-                                    <div id="time-chart"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <BarChart data={this.state.data} ndx={this.state.ndx} title={"This is Bar"}/>
-                        <PieChart data={this.state.data} ndx={this.state.ndx} title={"This is Pie"}/>
+                    var dim = chart.dim
+                    var title = chart.title
+                    //Do something
+                }
 
-                    </div>
-                </div>
-
-                <div className="col-sm-6">
-                    <div className="chart-wrapper">
-                        <div className="chart-title">
-                            Distribution of Donations
-                        </div>
-                        <div className="chart-stage">
-                            <div id="us-chart"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-sm-3">
-                    <div className="chart-wrapper">
-                        <div className="chart-title">
-                            Total Number of Donations
-                        </div>
-                        <div className="chart-stage">
-                            <div id="number-projects-nd"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-sm-3">
-                    <div className="chart-wrapper">
-                        <div className="chart-title">
-                            Total Donations in USD
-                        </div>
-                        <div className="chart-stage">
-                            <div id="total-donations-nd"></div>
-                        </div>
-                    </div>
-                </div>
+            })()})
 
             </div>
         )
@@ -99,10 +81,10 @@ var DashBoard = React.createClass({
 });
 
 
-function makeGraphs_react(error, dataCSV) {
+function makeGraphs_react(error, dataCSV, renderInst) {
 
     ReactDOM.render(
-        <DashBoard data={dataCSV}/>,
+        <DashBoard data={dataCSV} inst={renderInst}/>,
         document.getElementById('charts')
     );
     // makeGraphs(error, dataCSV)

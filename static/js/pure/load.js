@@ -1,6 +1,4 @@
 $(function(){
-
-
     $('.enter_link').click(function () {
         $('#mainload').hide(500);
         window.location.href='/app';

@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import json
 from bson import json_util
 from bson.json_util import dumps
+from flask import request
 
 app = Flask(__name__)
 
@@ -22,6 +23,14 @@ def index():
 @app.route("/app")
 def app_route():
     return render_template("index.html")
+
+
+@app.route("/postdata", methods=['POST'])
+def post_data():
+    print("post " + request.form.get('url'))
+    result = {"charts": [{"dim": "mth", "chart": "time", "title": "time against net_bal_amt"}], "measure": "net_bal_amt"}
+    return json.dumps(result)
+
 
 
 @app.route("/donorschoose/projects")
