@@ -5,6 +5,7 @@ import json
 from bson import json_util
 from bson.json_util import dumps
 from flask import request
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -19,6 +20,12 @@ FIELDS = {'school_state': True, 'resource_type': True, 'poverty_level': True, 'd
 def index():
     return render_template("index1.html")
 
+@app.route('/static/<path:path>')
+def send_js(path):
+    return send_from_directory('static', path)
+
+
+
 
 @app.route("/app")
 def app_route():
@@ -28,9 +35,18 @@ def app_route():
 @app.route("/postdata", methods=['POST'])
 def post_data():
     print("post " + request.form.get('url'))
-    result = {"charts": [{"dim": "mth", "chart": "time", "title": "time against net_bal_amt"}], "measure": "net_bal_amt"}
+    result = {"charts": [{"dim": "type_of_course", "chart": "bar", "title": "time against net_bal_amt"}, {"dim": "year", "chart": "pie", "title": "time against net_bal_amt"}], "measure": "count"}
     return json.dumps(result)
 
+
+@app.route("/data")
+def get_data():
+    df = pd.read_csv("static/test/test.csv")
+    data = json.loads(df.reset_index().to_json(orient='records'))
+    result = {}
+    result['data'] = data
+    json_data = json.dumps(result, default=json_util.default)
+    return json_data
 
 
 @app.route("/donorschoose/projects")

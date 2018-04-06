@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="./static/css/custom.css">
 
     </head>
-<body class="application">
+<body >
 
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="navbar navbar-light navbar-fixed-top" style="background-color: #113d71;" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="./">Donorschoose Dashboard</a>
+        <a class="navbar-brand" href="./">DataViz</a>
       </div>
     </div>
   </div>
@@ -28,9 +28,10 @@
         </div><!-- /input-group -->
       </div>
     </div>
-    <nav class="navbar navbar-dark bg-dark">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar bg-light" style="background-color: #2c6e8c;">
+      <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
+        Add DataSource
       </button>
     </nav>
   </div>
@@ -39,96 +40,96 @@
 
     <div class="row" id="dashboard">
 
-      <div class="col-sm-6">
-        <div class="row">
+      <!--<div class="col-sm-6">-->
+        <!--<div class="row">-->
 
-          <!-- Time Chart --> 
-          <div class="col-sm-12">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Number of Donations
-              </div>
-              <div class="chart-stage">
-                <div id="time-chart"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Time Chart --> 
+          <!--&lt;!&ndash; Time Chart &ndash;&gt; -->
+          <!--<div class="col-sm-12">-->
+            <!--<div class="chart-wrapper">-->
+              <!--<div class="chart-title">-->
+                <!--Number of Donations-->
+              <!--</div>-->
+              <!--<div class="chart-stage">-->
+                <!--<div id="time-chart"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; Time Chart &ndash;&gt; -->
 
-          <!-- Resources Pie -->
-          <div class="col-sm-6">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Resources Type
-              </div>
-              <div class="chart-stage">
-                <div id="resource-type-row-chart"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Resources Pie -->
+          <!--&lt;!&ndash; Resources Pie &ndash;&gt;-->
+          <!--<div class="col-sm-6">-->
+            <!--<div class="chart-wrapper">-->
+              <!--<div class="chart-title">-->
+                <!--Resources Type-->
+              <!--</div>-->
+              <!--<div class="chart-stage">-->
+                <!--<div id="resource-type-row-chart"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; Resources Pie &ndash;&gt;-->
 
-          <!-- Poverty Pie -->
-          <div class="col-sm-6">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Poverty Level
-              </div>
-              <div class="chart-stage">
-                <div id="poverty-level-row-chart"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Poverty Pie -->
+          <!--&lt;!&ndash; Poverty Pie &ndash;&gt;-->
+          <!--<div class="col-sm-6">-->
+            <!--<div class="chart-wrapper">-->
+              <!--<div class="chart-title">-->
+                <!--Poverty Level-->
+              <!--</div>-->
+              <!--<div class="chart-stage">-->
+                <!--<div id="poverty-level-row-chart"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; Poverty Pie &ndash;&gt;-->
 
-        </div>
-      </div>
+        <!--</div>-->
+      <!--</div>-->
 
-      <!-- Map -->  
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Distribution of Donations
-          </div>
-          <div class="chart-stage">
-            <div id="us-chart"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Map -->
+      <!--&lt;!&ndash; Map &ndash;&gt;  -->
+      <!--<div class="col-sm-6">-->
+        <!--<div class="chart-wrapper">-->
+          <!--<div class="chart-title">-->
+            <!--Distribution of Donations-->
+          <!--</div>-->
+          <!--<div class="chart-stage">-->
+            <!--<div id="us-chart"></div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; Map &ndash;&gt;-->
 
-      <!-- Metric 1 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total Number of Donations
-          </div>
-          <div class="chart-stage">
-            <div id="number-projects-nd"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Metric 1 -->
+      <!--&lt;!&ndash; Metric 1 &ndash;&gt;-->
+      <!--<div class="col-sm-3">-->
+        <!--<div class="chart-wrapper">-->
+          <!--<div class="chart-title">-->
+            <!--Total Number of Donations-->
+          <!--</div>-->
+          <!--<div class="chart-stage">-->
+            <!--<div id="number-projects-nd"></div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; Metric 1 &ndash;&gt;-->
 
-      <!-- Metric 2 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total Donations in USD
-          </div>
-          <div class="chart-stage">
-            <div id="total-donations-nd"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Metric 2 -->
+      <!--&lt;!&ndash; Metric 2 &ndash;&gt;-->
+      <!--<div class="col-sm-3">-->
+        <!--<div class="chart-wrapper">-->
+          <!--<div class="chart-title">-->
+            <!--Total Donations in USD-->
+          <!--</div>-->
+          <!--<div class="chart-stage">-->
+            <!--<div id="total-donations-nd"></div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; Metric 2 &ndash;&gt;-->
 
-    </div>
+
 
   </div>
 
     <hr>
-    <p class="small text-muted">Built with &#9829; by <a href="https://keen.io">Keen IO</a></p>
+    <p class="small text-muted">Built with &#9829; by <a href="#">DataViz Team</a></p>
 
   </div>
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -139,10 +140,17 @@
   <script src="./static/lib/js/dc.js"></script>
   <script src="./static/lib/js/queue.js"></script>
 
+  <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
 
   <script src="./static/lib/js/keen.min.js"></script>
-  <script src='./static/js/graphs.js' type='text/javascript'></script>
-  <script src="static/js/main.js"></script>
+  <script type="text/jsx" src="./static/js/PieChart.js"></script>
+  <script type="text/jsx" src="./static/js/BarChart.js"></script>
+  <script type="text/jsx" src="./static/js/Table.js"></script>
+  <script src="./static/js/example.js" type="text/jsx"></script>
+  <script src="./static/js/main.js"></script>
 
 </body>
 </html>

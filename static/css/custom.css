@@ -11,6 +11,15 @@
     font-size: 12px;
 }
 
+.custom-toggler {
+    border-color: rgb(17, 61, 113);
+}
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("../img/icon.png");
+}
+
+
+
 .bg{
     background-image: url("../img/TEST.jpg");
 
@@ -32,4 +41,19 @@
 
 #mainload{
     width: 100%;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
 }

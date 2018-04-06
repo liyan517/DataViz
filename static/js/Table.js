@@ -1,5 +1,5 @@
 
-var BarChart = React.createClass({
+var TableChart = React.createClass({
     getInitialState: function (){
         return {
             chart: null
@@ -12,25 +12,32 @@ var BarChart = React.createClass({
         var dimension = ndx.dimension(function(d) { return d[dim]; });
 
         //Create calculate
-        var measure_val = dimension.group().reduceSum(function(d) {
+        var measure_val = (function(d) {
             return d[measure];
         });
 
         //Charts
-        var barChart = dc.barChart("#bar-chart");
+        var tableChart = dc.dataTable(".data_table");
 
 
 
-        barChart
-            .width(800)
-            .height(300)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .brushOn(false)
-            .xAxisLabel('Year')
-            .yAxisLabel('Count')
+        tableChart
             .dimension(dimension)
-            .group(measure_val);
+            .group(function(d) {
+                return "-" + d[measure];
+            })
+            .columns([
+                'year','type_of_course','type_of_study','count'
+            ])        .sortBy(function (d) {
+            return d.year;
+        })
+        // (_optional_) sort order, `default = d3.ascending`
+            .order(d3.ascending)
+            // (_optional_) custom renderlet to post-process chart using [D3](http://d3js.org)
+            .on('renderlet', function (table) {
+                table.selectAll('.dc-table-group').classed('table-info', true);
+            });
+        ;
 
 
         // dc.renderAll();
@@ -49,21 +56,13 @@ var BarChart = React.createClass({
             display: 'none'
         };
         return (
-
             <div className="col-sm-12">
                 <div className="chart-wrapper">
                     <div className="chart-title">
                         {this.props.title}
                     </div>
                     <div className="chart-stage">
-                        <div id="bar-chart">
-                            <span className="reset" style={style_css}>Selected: <span className="filter"></span></span>
-                            <a className="reset" href="javascript:barChart.filterAll();dc.redrawAll();"
-                               style={style_css}> reset</a>
-
-                            <div className="clearfix"></div>
-
-                        </div>
+                        <table className="table table-hover table-sm data_table"></table>
                     </div>
                 </div>
             </div>
