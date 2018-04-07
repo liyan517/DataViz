@@ -22,13 +22,13 @@ var BarChart = React.createClass({
 
 
         barChart
-            .width(800)
+            .width(600)
             .height(300)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .brushOn(false)
-            .xAxisLabel('Year')
-            .yAxisLabel('Count')
+            .xAxisLabel(dim)
+            .yAxisLabel(measure)
             .dimension(dimension)
             .group(measure_val);
 
@@ -50,7 +50,7 @@ var BarChart = React.createClass({
         };
         return (
 
-            <div className="col-sm-12">
+            <div className="col-sm-6">
                 <div className="chart-wrapper">
                     <div className="chart-title">
                         {this.props.title}

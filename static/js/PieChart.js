@@ -41,7 +41,7 @@ var PieChart = React.createClass({
         },
         render: function() {
             return (
-                <div className="col-sm-12">
+                <div className="col-sm-6">
                     <div className="chart-wrapper">
                         <div className="chart-title">
                             {this.props.title}
