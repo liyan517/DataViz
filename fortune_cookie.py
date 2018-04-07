@@ -4,6 +4,7 @@ from db_interactions import put_data
 import requests
 from bs4 import BeautifulSoup
 import re
+import urlparse
 
 def fortune(index):
 	cookies = ["The fortune you seek is in another cookie.",
@@ -14,11 +15,15 @@ def fortune(index):
 	return cookies[index % 5]
 
 def get_json(url):
-	page = requests.get(url)
-	soup = BeautifulSoup(page.content, 'html.parser')
-	var_data = soup(text=re.compile('var data'))
-	m = re.search(r"resource_id: '(.*?)'", str(var_data))
-	return "https://data.gov.sg/api/action/datastore_search?resource_id=" + m.group(1)
+    parsed = urlparse.urlparse(url)
+    res_id = urlparse.parse_qs(parsed.query)['resource_id'][0]
+    print res_id
+    return "https://data.gov.sg/api/action/datastore_search?resource_id=" + res_id
+    '''page = requests.get(url)
+	# soup = BeautifulSoup(page.content, 'html.parser')
+	# var_data = soup(text=re.compile('var data'))
+	# m = re.search(r"resource_id: '(.*?)'", str(var_data))
+	# return "https://data.gov.sg/api/action/datastore_search?resource_id=" + m.group(1)'''
 
 
 class decision_tree():
@@ -71,8 +76,11 @@ def df_decider(data_set_url, measure = None):
     chart_mapping = {}
     predicted_measure = None
 
-    resp = requests.get(data_set_url)
-    first_rsrc = resp.json()["result"]["records"]
+    resp = requests.get(data_set_url + "&limit=5")
+    total_record = resp.json()["result"]["total"]
+    full_data_url = data_set_url + "&limit=" + str(total_record)
+    full_resp = requests.get(full_data_url)
+    first_rsrc = full_resp.json()["result"]["records"]
     df = pd.DataFrame(first_rsrc)
     df = df.apply(pd.to_numeric, errors='ignore')
 
@@ -90,7 +98,7 @@ def df_decider(data_set_url, measure = None):
     df_uploaded_format["data"] = lst_records
 
     #put data into cloudant
-    put_data(data_set_url, df_uploaded_format)
+    put_data(full_data_url, df_uploaded_format)
 
     for field_idx in resp.json()["result"]["fields"]:
         var_type = field_idx["type"]

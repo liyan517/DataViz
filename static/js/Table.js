@@ -10,6 +10,7 @@ var TableChart = React.createClass({
         var dim = this.props.dim;
         var measure = this.props.measure;
         var dimension = ndx.dimension(function(d) { return d[dim]; });
+        var columns = this.props.columns;
 
         //Create calculate
         var measure_val = (function(d) {
@@ -24,12 +25,11 @@ var TableChart = React.createClass({
         tableChart
             .dimension(dimension)
             .group(function(d) {
-                return "-" + d[measure];
+                return "-" + d[dimension];
             })
-            .columns([
-                'year','type_of_course','type_of_study','count'
-            ])        .sortBy(function (d) {
-            return d.year;
+            .columns(columns)
+            .sortBy(function (d) {
+            return d[measure];
         })
         // (_optional_) sort order, `default = d3.ascending`
             .order(d3.ascending)

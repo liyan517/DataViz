@@ -17,6 +17,7 @@
 var DashBoard = React.createClass({
     getInitialState: function (){
         var data = this.props.data;
+        console.log(data.length)
         var renderInst = this.props.inst;
 
 
@@ -56,6 +57,9 @@ var DashBoard = React.createClass({
                     break;
                 case 'time':
                     chartObj.push(<TimeChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    break;
+                case 'table':
+                    chartObj.push(<TableChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
                     break;
                 default:
                     chartObj.push(<div>Chart {charType} is not supported</div>);

@@ -16,14 +16,17 @@ var TimeChart = React.createClass({
         lineChart
             .width(800)
             .height(300)
+            .transitionDuration(500)
+            .margins({top: 30, right: 50, bottom: 25, left: 40})
+            .dimension(dimension)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .brushOn(false)
+            .elasticY(true)
             .xAxisLabel(String(dim))
             .yAxisLabel(String(measure))
-            .dimension(dimension)
+            .renderHorizontalGridLines(true)
+            .brushOn(false)
             .group(measure_val);
-
 
         // dc.renderAll();
 
