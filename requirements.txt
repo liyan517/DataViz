@@ -19,4 +19,5 @@ urllib3==1.22
 Werkzeug==0.14.1
 cloudant==2.3.1
 pandas==0.22.0
+python-dotenv==0.8.2
 
