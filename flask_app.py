@@ -7,8 +7,6 @@ import os
 import sys
 from flask import render_template
 import json
-# jsonfrom bson import json_util
-# from bson.json_util import dumps
 from flask import request
 from fortune_cookie import get_json, df_decider
 from db_interactions import get_data

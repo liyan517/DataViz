@@ -56,8 +56,11 @@ def chart_mapping_to_json(mapping, measure, data_url):
     res["measure"] = measure
     res["data"] = data_url
     charts_lst = []
+    cols_lst = []
     for k,v in mapping.iteritems():
         charts_lst.append({"dim":k, "chart":v, "title": k + " against " + measure})
+        cols_lst.append(k)
+    charts_lst.append({"dim":cols_lst[0], "chart":"table", "columns":cols_lst})
     # print(json.dumps(res))
     print("THIS IS CHART MAPPING TO JSON")
     res["charts"] = charts_lst
@@ -79,8 +82,13 @@ def df_decider(data_set_url, measure = None):
     #     df_uploaded_format[i] = record
     for i, record in enumerate(df.drop("_id",1).to_dict(orient="records")):
         lst_records.append(record)
+
+    df_height = len(lst_records)
+    df_width = len(df.columns)
+    df_ratio = df_width/df_height
+
     df_uploaded_format["data"] = lst_records
-    
+
     #put data into cloudant
     put_data(data_set_url, df_uploaded_format)
 
@@ -93,6 +101,8 @@ def df_decider(data_set_url, measure = None):
 
         if var_name in ["mth", "year", "month", "day", "quarter"]:
             chart_mapping[var_name] = "time"
+        elif var_name in ["Town or Estate", "Town", "Estate"]:
+            chart_mapping[var_name] = "geo"
         elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
             predicted_measure = var_name
