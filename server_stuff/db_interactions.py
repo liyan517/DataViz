@@ -13,7 +13,7 @@ def put_data(data_url, data_itself):
     serviceURL = os.getenv("serviceURL")
 
     client = Cloudant(serviceUsername, servicePassword, url=serviceURL)
-    client.connectg()
+    client.connect()
     session = client.session()
 
     # print('Username: {0}'.format(session['userCtx']['name']))
@@ -39,3 +39,27 @@ def put_data(data_url, data_itself):
     client.disconnect()
 
     return True
+
+
+def get_data(data_url):
+    dotenv_path = join(dirname(__file__), '.env')
+    load_dotenv(dotenv_path)
+
+    serviceUsername = os.getenv("serviceUsername")
+    servicePassword = os.getenv("servicePassword")
+    serviceURL = os.getenv("serviceURL")
+
+    client = Cloudant(serviceUsername, servicePassword, url=serviceURL)
+    client.connect()
+    session = client.session()
+    my_database = client['my_sample_db']
+
+    try:
+        target_document = my_database[data_url]
+    except KeyError:
+        pass
+    # Disconnect from the server
+    client.disconnect()
+
+    return target_document
+

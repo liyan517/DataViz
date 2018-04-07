@@ -58,7 +58,7 @@ def chart_mapping_to_json(mapping, measure, data_url):
     res["data"] = data_url
     i = 0
     for k,v in mapping.iteritems():
-        charts[i] = {"dim":k, "chart":v, "title": v + " against " + measure}
+        charts[i] = {"dim":k, "chart":v, "title": k + " against " + measure}
         i += 1
     # print(json.dumps(res))
     return res
@@ -87,7 +87,7 @@ def df_decider(data_set_url, measure = None):
         if var_name == "_id":
             continue
 
-        if var_name in ["mth", "year", "month", "day"]:
+        if var_name in ["mth", "year", "month", "day", "quarter"]:
             chart_mapping[var_name] = "time"
         elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
@@ -141,6 +141,6 @@ num_text_split = decision_tree([(lambda x: "year" in str(x.name) or "mth" in str
 # print("Deciding pie data: " + num_split.decide(pie_data))
 # print("Deciding bar data:" + num_split.decide(bar_data))
 #
-print(df_decider("https://data.gov.sg/api/action/datastore_search?resource_id=193c2acb-43cc-4b97-97e8-916b6aa9adc7"))
+# print(df_decider("https://data.gov.sg/api/action/datastore_search?resource_id=193c2acb-43cc-4b97-97e8-916b6aa9adc7"))
 # print(df_decider("https://data.gov.sg/api/action/datastore_search?resource_id=9df79e72-a7ed-4df3-9a60-5fe434f38fe7"))
 # print(df_decider("https://data.gov.sg/api/action/datastore_search?resource_id=f9dbfc75-a2dc-42af-9f50-425e4107ae84"))
