@@ -31,7 +31,8 @@ def put_data(data_url, data_itself):
         # print("DELETED OLD RECORD")
     except KeyError:
         pass
-
+    print("WHAT GOES IN")
+    print(data_itself)
     new_document = my_database.create_document(data_itself)
     print(new_document.exists())
     print(my_database[data_url])
@@ -61,8 +62,11 @@ def get_data(data_url):
     # Disconnect from the server
     client.disconnect()
     print("raw DOCUMENT")
-    print(target_document.viewvalues())
-    res = json.dumps(target_document.viewvalues())
+    print(target_document)
+
+    del target_document["_id"]
+    del target_document["_rev"]
+    res = json.dumps(target_document)
     print("CONVERTED DOCUMENT")
     print(res)
     return res
