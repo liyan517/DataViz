@@ -99,9 +99,9 @@ def df_decider(data_set_url, measure = None):
         if var_name == "_id":
             continue
 
-        if var_name in ["mth", "year", "month", "day", "quarter"]:
+        if var_name.lower() in ["mth", "year", "month", "day", "quarter"]:
             chart_mapping[var_name] = "time"
-        elif var_name in ["Town or Estate", "Town", "Estate"]:
+        elif var_name.lower() in ["town or estate", "town", "estate"]:
             chart_mapping[var_name] = "geo"
         elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
