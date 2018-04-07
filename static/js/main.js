@@ -15,7 +15,7 @@ $(document).ready(
                     });*/
 
                     $.get("/data", {'key': obj.data}, function (data) {
-                        alert(data)
+                        alert(data);
                         let dataStr = JSON.parse(data);
                         makeGraphs_react(dataStr.data, obj);
                     });

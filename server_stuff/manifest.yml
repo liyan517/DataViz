@@ -1,4 +1,0 @@
- --- applications:
- - name: getjson
- - random-route: true
- - memory: 256M

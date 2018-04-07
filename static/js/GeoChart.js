@@ -1,5 +1,5 @@
 //need to add  .defer(d3.json, "static/geojson/SGJson.json")
-var PieChart = React.createClass({
+var GeoChart = React.createClass({
         makeGraphs: function(testData, SGJson, ndx){
             var dim = this.props.dim;
             var measure = this.props.measure;
