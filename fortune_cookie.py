@@ -101,6 +101,8 @@ def df_decider(data_set_url, measure = None):
 
         if var_name in ["mth", "year", "month", "day", "quarter"]:
             chart_mapping[var_name] = "time"
+        elif var_name in ["Town or Estate", "Town", "Estate"]:
+            chart_mapping[var_name] = "geo"
         elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
             predicted_measure = var_name
