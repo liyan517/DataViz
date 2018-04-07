@@ -13,8 +13,8 @@ $(document).ready(
 
                         makeGraphs_react(data.result.records, obj);
                     });*/
-                    alert("/data/url=" + value)
-                    $.get("/data/url=" + value, function (data) {
+
+                    $.get("/data", {'key': obj.data}, function (data) {
                         alert(data)
                         let dataStr = JSON.parse(data);
                         makeGraphs_react(dataStr.data, obj);
