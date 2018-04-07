@@ -74,9 +74,13 @@ def df_decider(data_set_url, measure = None):
     df = df.apply(pd.to_numeric, errors='ignore')
 
     df_uploaded_format = {}
+    lst_records = []
+    # for i, record in enumerate(df.drop("_id",1).to_dict(orient="records")):
+    #     df_uploaded_format[i] = record
     for i, record in enumerate(df.drop("_id",1).to_dict(orient="records")):
-        df_uploaded_format[i] = record
-
+        lst_records.append(record)
+    df_uploaded_format["data"] = lst_records
+    
     #put data into cloudant
     put_data(data_set_url, df_uploaded_format)
 
