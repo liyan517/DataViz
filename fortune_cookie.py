@@ -109,7 +109,7 @@ def df_decider(data_set_url, measure = None):
 
         if var_name.lower() in ["mth", "year", "month", "day", "quarter"]:
             chart_mapping[var_name] = "time"
-        elif var_name.lower() in ["town or estate", "town", "estate"]:
+        elif var_name.lower() in ["town_or_estate", "town", "estate"]:
             chart_mapping[var_name] = "geo"
         elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
@@ -123,11 +123,11 @@ def df_decider(data_set_url, measure = None):
 
     if measure:
         del chart_mapping[measure]
-        return chart_mapping_to_json(chart_mapping, measure, data_set_url)
+        return chart_mapping_to_json(chart_mapping, measure, full_data_url)
     else:
         if predicted_measure:
             del chart_mapping[predicted_measure]
-            return chart_mapping_to_json(chart_mapping, predicted_measure, data_set_url)
+            return chart_mapping_to_json(chart_mapping, predicted_measure, full_data_url)
         else:
             raise TypeError("Did not find any measure (real valued number) for y-axis")
 #
@@ -144,7 +144,7 @@ pie_bar_split = decision_tree([
                                "Least frequent item at least 10% of the data set|Least frequent item is less than 10% of data set")
 
 cat_count_split = decision_tree([
-                                (lambda x: len(x.value_counts()) < 5, pie_bar_split),
+                                (lambda x: len(x.value_counts()) < 5 and len(x.value_counts()) > 2, pie_bar_split),
                                (lambda x: len(x.value_counts()) >= 5 and len(x.value_counts()) <= 10 , "bar"),
                                 (lambda x: len(x.value_counts()) > 10, "treeMap")
                                  ],
