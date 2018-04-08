@@ -1,5 +1,5 @@
 
-var BarChart = React.createClass({
+var RowChart = React.createClass({
     getInitialState: function (){
         return {
             chart: null
@@ -19,7 +19,7 @@ var BarChart = React.createClass({
         });
 
         //Charts
-        var barChart = dc.barChart(key);
+        var barChart = dc.rowChart(key);
 
         var xaxis = dim.replace('_', ' ')
         var yaxis = measure.split('_').join(' ')
@@ -28,18 +28,21 @@ var BarChart = React.createClass({
             .width(newWidth)
             .margins({top: 30, right: 50, bottom: 50, left: 100})
             .height(300)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .brushOn(false)
-            .xAxisLabel(xaxis)
-            .yAxisLabel(yaxis)
+//            .x(d3.scale.ordinal())
+//            .xUnits(dc.units.ordinal)
+//            .brushOn(false)
+//            .xAxisLabel(xaxis)
+//            .yAxisLabel(yaxis)
             .dimension(dimension)
             .group(measure_val)
             .xAxis().ticks(4);
 //            .on('renderlet', function (table) {
 //                table.selectAll('g.x text').attr('transform', 'translate(-10,10) rotate(315)');
 //            });
-
+//             .renderlet(function (chart) {
+//   // rotate x-axis labels
+//   chart.selectAll('g.x text')
+//     .attr('transform', 'translate(-10,10) rotate(315)');;
 
 
         // dc.renderAll();

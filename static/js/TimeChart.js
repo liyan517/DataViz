@@ -13,6 +13,8 @@ var TimeChart = React.createClass({
         var lineChart = dc.lineChart("#line-chart");
 //        var volumeChart = dc.barChart('#small-line-chart');
 
+        var xaxis = dim.replace('_', ' ')
+        var yaxis = measure.split('_').join(' ')
         var newWidth = document.getElementById('line-stage').offsetWidth;
         lineChart
             .width(newWidth)
@@ -26,8 +28,8 @@ var TimeChart = React.createClass({
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .elasticY(true)
-            .xAxisLabel(String(dim))
-            .yAxisLabel(String(measure))
+            .xAxisLabel(xaxis)
+            .yAxisLabel(yaxis)
             .renderHorizontalGridLines(true)
             .brushOn(false)
             .group(measure_val);

@@ -1,18 +1,3 @@
-// ReactDOM.render(
-//     <UploadBar/>,
-//     document.getElementById('upload-bar')
-// );
-//
-// queue()
-//     .defer(d3.csv, "static/test/test.csv")
-//     .await(makeGraphs_react);
-//
-// function makeDashBoards(error, response) {
-//
-// }
-
-
-
 
 var DashBoard = React.createClass({
     getInitialState: function (){
@@ -24,14 +9,15 @@ var DashBoard = React.createClass({
 
         var dateFormat = d3.time.format("%Y-%m-%d");
         data.forEach(function(d) {
-
             d["year"] = d["year"];
             d["count"] = +d["count"]
             if(d["price"] != undefined){
                 d["price"] = +d["price"]
             }
-            if(d["town_or_estate"] != undefined){
-                d["town_or_estate"] = d["town_or_estate"].toUpperCase()}
+            if(d["no_of_graduates"] != undefined){
+                d["no_of_graduates"] = +d["no_of_graduates"]
+
+            }
         });
 
         //Create a Crossfilter instance
@@ -52,24 +38,43 @@ var DashBoard = React.createClass({
         var chartObj = [];
         for (var i = 0; i < this.state.renderInst.charts.length; i++) {
             var chart = this.state.renderInst.charts[i]
+            var title = chart.title
+            if(chart.title != undefined)
+                title = chart.title.split('_').join(' ')
             var charType = chart.chart;
-            console.log(charType);
+            var key = charType + "-" + i
+            var stagekey = 'stage-' + charType + "-" + i
+            console.log(charType + key);
             switch(charType) {
                 case 'pie':
-                    chartObj.push(<PieChart data={this.state.data} ndx={this
-                    .state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<PieChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx}
+                    title={title} measure={this.state.renderInst.measure}
+                     dim={chart.dim}/>);
                     break;
                 case 'bar':
-                    chartObj.push(<BarChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<BarChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    break;
+                case 'row':
+                    chartObj.push(<RowChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
                     break;
                 case 'time':
-                    chartObj.push(<TimeChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<TimeChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    break;
+                case 'real':
+                    chartObj.push(<ScatterPlot id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
                     break;
                 case 'geo':
-                    chartObj.push(<GeoChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<GeoChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
                     break;
                 case 'table':
-                    chartObj.push(<TableChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
+                    chartObj.push(<TableChart id={key} stageid={stagekey}
+                    data={this.state.data} ndx={this.state.ndx} title={title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
                     break;
                 default:
                     chartObj.push(<div>Chart {charType} is not supported</div>);

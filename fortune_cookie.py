@@ -63,7 +63,7 @@ def chart_mapping_to_json(mapping, measure, data_url):
     charts_lst = []
     cols_lst = []
     for k,v in mapping.iteritems():
-        if(v == 'bar' or v == 'pie'):
+        if(v == 'bar' or v == 'row' or v == 'pie'):
             charts_lst.insert(0,{"dim":k, "chart":v, "title": k + " against " +
                                                       measure})
         else:
@@ -114,11 +114,11 @@ def df_decider(data_set_url, measure = None):
         if var_name == "_id":
             continue
 
-        if var_name.lower() in ["mth", "year", "month", "day", "quarter"]:
+        if var_name.lower() in ["mth", "year", "month", "day", "quarter"] :
             chart_mapping[var_name] = "time"
         elif var_name.lower() in ["town_or_estate", "town", "estate"]:
             chart_mapping[var_name] = "geo"
-        elif var_name.lower() in ["price"] or len(
+        elif var_name.lower() in ["price", "no_of_graduates"] or len(
             df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
             predicted_measure = var_name

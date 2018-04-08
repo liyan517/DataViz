@@ -1,5 +1,8 @@
 var PieChart = React.createClass({
         makeGraphs: function(testData, ndx){
+            var key = "#" + this.props.id
+            var stagekey = this.props.stageid
+            console.log(stagekey)
             var dim = this.props.dim;
             var measure = this.props.measure;
             var dateDim = ndx.dimension(function(d) { return d[dim]; });
@@ -11,9 +14,8 @@ var PieChart = React.createClass({
 
             //Charts
             //var newWidth = document.getElementById('pie-stage').offsetHigh;
-            var pieChart = dc.pieChart("#pie-chart");
-            var containerWidth = document.getElementById('pie-stage')
-            .offsetWidth;
+            var pieChart = dc.pieChart(key);
+            var containerWidth = document.getElementById(stagekey).offsetWidth;
             var width = 300
             var height = 300
             pieChart
@@ -37,7 +39,7 @@ var PieChart = React.createClass({
                     })
                 })
                 .on('renderlet', function (table) {
-                    table.selectAll('#pie-chart').classed('center', true);
+                    table.selectAll(key).classed('center', true);
                 });
 
 
@@ -56,8 +58,8 @@ var PieChart = React.createClass({
                         <div className="chart-title">
                             {this.props.title}
                         </div>
-                        <div className="chart-stage" id="pie-stage">
-                            <div id="pie-chart"></div>
+                        <div className="chart-stage" id={this.props.stageid}>
+                            <div id={this.props.id}></div>
                         </div>
                     </div>
                 </div>
