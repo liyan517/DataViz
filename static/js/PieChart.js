@@ -10,16 +10,23 @@ var PieChart = React.createClass({
             });
 
             //Charts
+            //var newWidth = document.getElementById('pie-stage').offsetHigh;
             var pieChart = dc.pieChart("#pie-chart");
+            var containerWidth = document.getElementById('pie-stage')
+            .offsetWidth;
+            var width = 300
+            var height = 300
             pieChart
 /*                .attr("preserveAspectRatio", "xMinYMin meet")
                 .attr("viewBox", "0 0 600 400")*/
                 //class to make it responsive
                 //.classed("svg-content-responsive", true)
-                .width(300)
-                .height(300)
-                .slicesCap(4)
+                .width(containerWidth)
+                .height(height)
+                .transitionDuration(500)
+                .slicesCap(5)
                 .innerRadius(50)
+                .cx(containerWidth/2)
                 .dimension(dateDim)
                 .group(measure_val)
                 .legend(dc.legend())
@@ -28,6 +35,9 @@ var PieChart = React.createClass({
                     chart.selectAll('text.pie-slice').text(function(d) {
                         return d.data.key + ' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100) + '%';
                     })
+                })
+                .on('renderlet', function (table) {
+                    table.selectAll('#pie-chart').classed('center', true);
                 });
 
 
@@ -46,7 +56,7 @@ var PieChart = React.createClass({
                         <div className="chart-title">
                             {this.props.title}
                         </div>
-                        <div className="chart-stage svg-container">
+                        <div className="chart-stage" id="pie-stage">
                             <div id="pie-chart"></div>
                         </div>
                     </div>

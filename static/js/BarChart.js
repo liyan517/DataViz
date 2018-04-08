@@ -20,9 +20,10 @@ var BarChart = React.createClass({
         var barChart = dc.barChart("#bar-chart");
 
 
-
+        var newWidth = document.getElementById('bar-stage').offsetWidth;
         barChart
-            .width(600)
+            .width(newWidth)
+            .margins({top: 30, right: 50, bottom: 50, left: 100})
             .height(300)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
@@ -55,7 +56,7 @@ var BarChart = React.createClass({
                     <div className="chart-title">
                         {this.props.title}
                     </div>
-                    <div className="chart-stage">
+                    <div className="chart-stage" id="bar-stage">
                         <div id="bar-chart">
                             <span className="reset" style={style_css}>Selected: <span className="filter"></span></span>
                             <a className="reset" href="javascript:barChart.filterAll();dc.redrawAll();"

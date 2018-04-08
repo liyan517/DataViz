@@ -27,15 +27,15 @@ def put_data(data_url, data_itself):
     # Delete data if it already exists.
     try:
         old_document = my_database[data_url]
-        old_document.delete()
+        print("Document exist " + data_url)
+        #old_document.delete()
         # print("DELETED OLD RECORD")
     except KeyError:
-        pass
-    print("WHAT GOES IN")
-    print(data_itself)
-    new_document = my_database.create_document(data_itself)
-    print(new_document.exists())
-    print(my_database[data_url])
+        print("WHAT GOES IN")
+        print(data_itself)
+        new_document = my_database.create_document(data_itself)
+        print(new_document.exists())
+        print(my_database[data_url])
     # Disconnect from the server
     client.disconnect()
 

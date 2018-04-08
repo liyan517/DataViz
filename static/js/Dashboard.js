@@ -24,8 +24,14 @@ var DashBoard = React.createClass({
 
         var dateFormat = d3.time.format("%Y-%m-%d");
         data.forEach(function(d) {
+
             d["year"] = d["year"];
             d["count"] = +d["count"]
+            if(d["price"] != undefined){
+                d["price"] = +d["price"]
+            }
+            if(d["town_or_estate"] != undefined){
+                d["town_or_estate"] = d["town_or_estate"].toUpperCase()}
         });
 
         //Create a Crossfilter instance
@@ -50,16 +56,20 @@ var DashBoard = React.createClass({
             console.log(charType);
             switch(charType) {
                 case 'pie':
-                    chartObj.push(<PieChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<PieChart data={this.state.data} ndx={this
+                    .state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
                     break;
                 case 'bar':
-                    chartObj.push(<BarChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<BarChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
                     break;
                 case 'time':
-                    chartObj.push(<TimeChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    chartObj.push(<TimeChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
+                    break;
+                case 'geo':
+                    chartObj.push(<GeoChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim}/>);
                     break;
                 case 'table':
-                    chartObj.push(<TableChart data={this.props.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
+                    chartObj.push(<TableChart data={this.state.data} ndx={this.state.ndx} title={chart.title} measure={this.state.renderInst.measure} dim={chart.dim} columns={chart.columns}/>);
                     break;
                 default:
                     chartObj.push(<div>Chart {charType} is not supported</div>);

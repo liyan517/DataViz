@@ -63,9 +63,16 @@ def chart_mapping_to_json(mapping, measure, data_url):
     charts_lst = []
     cols_lst = []
     for k,v in mapping.iteritems():
-        charts_lst.append({"dim":k, "chart":v, "title": k + " against " + measure})
+        if(v == 'bar' or v == 'pie'):
+            charts_lst.insert(0,{"dim":k, "chart":v, "title": k + " against " +
+                                                      measure})
+        else:
+            charts_lst.append({"dim":k, "chart":v, "title": k + " against " +
+                                                      measure})
         cols_lst.append(k)
-    charts_lst.append({"dim":cols_lst[0], "chart":"table", "columns":cols_lst})
+    cols_lst.append(measure)
+    charts_lst.append({"dim":cols_lst[0], "chart":"table",
+                       "columns":cols_lst})
     # print(json.dumps(res))
     print("THIS IS CHART MAPPING TO JSON")
     res["charts"] = charts_lst
@@ -111,7 +118,8 @@ def df_decider(data_set_url, measure = None):
             chart_mapping[var_name] = "time"
         elif var_name.lower() in ["town_or_estate", "town", "estate"]:
             chart_mapping[var_name] = "geo"
-        elif len(df[var_name].unique()) > len(df)/10 and var_type != "text":
+        elif var_name.lower() in ["price"] or len(
+            df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
             predicted_measure = var_name
         elif var_type == "text":
@@ -144,7 +152,8 @@ pie_bar_split = decision_tree([
                                "Least frequent item at least 10% of the data set|Least frequent item is less than 10% of data set")
 
 cat_count_split = decision_tree([
-                                (lambda x: len(x.value_counts()) < 5 and len(x.value_counts()) > 2, pie_bar_split),
+                                (lambda x: len(x.value_counts()) < 5 and len(
+                                    x.value_counts()) > 1, pie_bar_split),
                                (lambda x: len(x.value_counts()) >= 5 and len(x.value_counts()) <= 10 , "bar"),
                                 (lambda x: len(x.value_counts()) > 10, "treeMap")
                                  ],
