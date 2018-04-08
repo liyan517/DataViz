@@ -20,7 +20,7 @@ var TimeChart = React.createClass({
             .width(newWidth)
             .height(300)
             .transitionDuration(500)
-            .margins({top: 30, right: 50, bottom: 50, left: 100})
+            .margins({top: 30, right: 50, bottom: 50, left: 80})
             .dimension(dimension)
 //            .mouseZoomable(true)
 //    // Specify a "range chart" to link its brush extent with the zoom of the current "focus chart".

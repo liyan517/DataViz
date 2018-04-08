@@ -42,6 +42,7 @@ var ScatterPlot = React.createClass({
         chart.width(newWidth)
             .height(300)
             .x(d3.scale.linear().domain([min_x,max_x]))
+            .margins({top: 30, right: 50, bottom: 50, left: 80})
 //            .y(d3.scale.linear().domain([min_y,max_y]))
             .yAxisLabel(yaxis)
             .xAxisLabel(xaxis)

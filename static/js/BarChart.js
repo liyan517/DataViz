@@ -26,7 +26,7 @@ var BarChart = React.createClass({
         var newWidth = document.getElementById(stagekey).offsetWidth;
         barChart
             .width(newWidth)
-            .margins({top: 30, right: 50, bottom: 50, left: 100})
+            .margins({top: 30, right: 50, bottom: 50, left: 80})
             .height(300)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
