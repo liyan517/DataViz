@@ -17,14 +17,16 @@ def fortune(index):
 
 def get_json(url):
     parsed = urlparse.urlparse(url)
-    res_id = urlparse.parse_qs(parsed.query)['resource_id'][0]
-    print res_id
-    return "https://data.gov.sg/api/action/datastore_search?resource_id=" + res_id
-    '''page = requests.get(url)
-	# soup = BeautifulSoup(page.content, 'html.parser')
-	# var_data = soup(text=re.compile('var data'))
-	# m = re.search(r"resource_id: '(.*?)'", str(var_data))
-	# return "https://data.gov.sg/api/action/datastore_search?resource_id=" + m.group(1)'''
+    if parsed.path[:5] == "/api/":
+        res_id = urlparse.parse_qs(parsed.query)['resource_id'][0]
+        print res_id
+        return "https://data.gov.sg/api/action/datastore_search?resource_id=" + res_id
+    else:
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        var_data = soup(text=re.compile('var data'))
+        m = re.search(r"resource_id: '(.*?)'", str(var_data))
+        return "https://data.gov.sg/api/action/datastore_search?resource_id=" + m.group(1)
 
 
 class decision_tree():
