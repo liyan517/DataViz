@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import re
 import urlparse
 
+
 def fortune(index):
 	cookies = ["The fortune you seek is in another cookie.",
 		"A closed mouth gathers no feet.",
@@ -122,12 +123,14 @@ def df_decider(data_set_url, measure = None):
             df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
             predicted_measure = var_name
+            print(df[var_name].mean())
         elif var_type == "text":
             chart_type = cat_count_split.decide(df[var_name])
             chart_mapping[var_name] = chart_type
         else:
             chart_type = num_split.decide(df[var_name])
             chart_mapping[var_name] = chart_type
+            print(df[var_name].mean())
 
     if measure:
         del chart_mapping[measure]
@@ -145,16 +148,30 @@ def df_decider(data_set_url, measure = None):
 # treemap_data = pd.Series([1,2,3,4,5,6,7])
 #
 #
+
+def bar_or_row(x):
+    result_str = ""
+    for cat_value in x.unique():
+        result_str += str(cat_value)
+    return len(result_str) < 40
+
+#lambda x: len(x.value_counts().tolist()) < 6
+bar_row_split = decision_tree([
+                                (bar_or_row, "bar"),
+                               (lambda x: len(x.value_counts().tolist()) >= 6, "row")
+                                ],
+                               "Not too many unique values|Too many unique values, use a row chart")
+
 pie_bar_split = decision_tree([
                                 (lambda x: x.value_counts().tolist()[-1]/float(len(x)) > 0.1, "pie"),
-                               (lambda x: x.value_counts().tolist()[-1]/float(len(x)) <= 0.1, "bar")
+                               (lambda x: x.value_counts().tolist()[-1]/float(len(x)) <= 0.1, bar_row_split)
                                 ],
                                "Least frequent item at least 10% of the data set|Least frequent item is less than 10% of data set")
 
 cat_count_split = decision_tree([
                                 (lambda x: len(x.value_counts()) < 5 and len(
                                     x.value_counts()) > 1, pie_bar_split),
-                               (lambda x: len(x.value_counts()) >= 5 and len(x.value_counts()) <= 10 , "bar"),
+                               (lambda x: len(x.value_counts()) >= 5 and len(x.value_counts()) <= 10 , bar_row_split),
                                 (lambda x: len(x.value_counts()) > 10, "treeMap")
                                  ],
                                "Number of categories < 5 | between 5 and 10 | >10")
