@@ -7,6 +7,7 @@ var GeoChart = React.createClass({
                 return d[dim];
             });
             console.log(statesJson)
+            console.log(measure)
 
             //Create calculate
             var measure_val = stateDim.group().reduceSum(function (d) {
@@ -15,15 +16,29 @@ var GeoChart = React.createClass({
 
             var max_state = measure_val.top(1)[0].value;
 
-            //Charts
+
             var sgChart = dc.geoChoroplethChart("#geo-chart");
+            var width = 1000;
+            var height = 400;
+            //var scale = 360*width/(104.05 - 103.6);
+            //var scale = 360*height/(1.46 - 1.2);
+            var scale = 360*height/(0.5);
+            console.log(scale)
+/* OK PARAM            var projection = d3.geo.equirectangular()
+                    .scale(40000)
+                    .center([100, -1])
+                    .translate([-width*2,height*6]);*/
+
+            var projection = d3.geo.equirectangular().scale(50000).center
+            ([100,-1]).translate([-width*2.75,height*5.5]);;
+            //Charts
             sgChart
-                .width(1000)
+                .width(width)
             /*                .attr("preserveAspectRatio", "xMinYMin meet")
                             .attr("viewBox", "0 0 600 400")*/
             //class to make it responsive
             //.classed("svg-content-responsive", true)
-                .height(300)
+                .height(height)
                 .dimension(stateDim)
                 .group(measure_val)
                 .colors(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])
@@ -31,14 +46,18 @@ var GeoChart = React.createClass({
                 .overlayGeoJson(statesJson["features"], "state", function (d) {
                     return d.properties.PLN_AREA_N;
                 })
-                .projection(d3.geo.albersUsa()
-                    .scale(600)
-                    .translate([340, 150]))
+//                .projection(d3.geo.equirectangular()
+//                    .scale(50000)
+//                    .center([100, -1])
+//                    .translate([-width*3,height*7]))
+                .projection(projection)
                 .title(function (p) {
                     return "State: " + p["key"]
                         + "\n"
                         + "Total Amount: " + Math.round(p["value"]);
                 });
+
+                sgChart.render();
 
 
 
@@ -59,7 +78,7 @@ var GeoChart = React.createClass({
                         <div className="chart-title">
                             {this.props.title}
                         </div>
-                        <div className="chart-stage svg-container">
+                        <div className="chart-stage">
                             <div id="geo-chart"></div>
                         </div>
                     </div>

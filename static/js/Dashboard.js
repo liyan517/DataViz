@@ -16,7 +16,9 @@ var DashBoard = React.createClass({
             }
             if(d["no_of_graduates"] != undefined){
                 d["no_of_graduates"] = +d["no_of_graduates"]
-
+            }
+            if(d["town_or_estate"] != undefined){
+                d["town_or_estate"] = d["town_or_estate"].toUpperCase()
             }
         });
 

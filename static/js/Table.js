@@ -29,7 +29,7 @@ var TableChart = React.createClass({
         tableChart
             .dimension(dimension)
             .group(function(d) {
-                return "-" + d[dim];
+                return "" + d[dim];
             })
             .columns(columns)
             .sortBy(function (d) {
