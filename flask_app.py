@@ -49,9 +49,6 @@ def get_data_url():
     key = request.args.get('key')
     print(key)
     json_data = get_data(key)
-    print("JSON DATA START")
-    print(json_data)
-    print("JSON DATA END")
     return json_data
 
 

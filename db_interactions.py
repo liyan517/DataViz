@@ -62,12 +62,12 @@ def get_data(data_url):
     # Disconnect from the server
     client.disconnect()
     print("raw DOCUMENT")
-    print(target_document)
+    #print(target_document)
 
     del target_document["_id"]
     del target_document["_rev"]
     res = json.dumps(target_document)
     print("CONVERTED DOCUMENT")
-    print(res)
+    #print(res)
     return res
 
