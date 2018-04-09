@@ -1,5 +1,7 @@
 var TimeChart = React.createClass({
     makeGraphs: function(ndx){
+        var key = "#" + this.props.id
+        var stagekey = this.props.stageid
         var dim = this.props.dim;
         var measure = this.props.measure;
         var dimension = ndx.dimension(function(d) { return d[dim]; });
@@ -10,12 +12,12 @@ var TimeChart = React.createClass({
         });
 
         //Charts
-        var lineChart = dc.lineChart("#line-chart");
+        var lineChart = dc.lineChart(key);
 //        var volumeChart = dc.barChart('#small-line-chart');
 
         var xaxis = dim.replace('_', ' ')
         var yaxis = measure.split('_').join(' ')
-        var newWidth = document.getElementById('line-stage').offsetWidth;
+        var newWidth = document.getElementById(stagekey).offsetWidth;
         lineChart
             .width(newWidth)
             .height(300)
@@ -52,8 +54,8 @@ var TimeChart = React.createClass({
                     <div className="chart-title">
                         {this.props.title}
                     </div>
-                    <div className="chart-stage" id="line-stage">
-                        <div id="line-chart">
+                    <div className="chart-stage" id={this.props.stageid}>
+                        <div id={this.props.id}>
                         </div>
                     </div>
                 </div>
