@@ -1,10 +1,6 @@
 from __future__ import print_function
-from flask import Flask, Response, jsonify, send_from_directory
-from flask_restplus import Api, Resource, fields, reqparse 
-from flask_cors import CORS, cross_origin
-import pandas as pd
-import os 
-import sys
+from flask import Flask,  send_from_directory
+import os
 from flask import render_template
 import json
 from flask import request
@@ -33,21 +29,15 @@ def app_route():
 
 @app.route("/postdata", methods=['POST'])
 def post_data():
-    print("post " + request.form.get('url'))
-    print(request.form.get('url'))
     url_string = get_json(request.form.get('url'))
     jsonstr = df_decider(url_string)
     result = json.dumps(jsonstr)
-    print("THIS IS RESULT")
-    print(result)
     return result
-    # return json.dumps(result)
 
 
 @app.route("/data")
 def get_data_url():
     key = request.args.get('key')
-    print(key)
     json_data = get_data(key)
     return json_data
 

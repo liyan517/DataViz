@@ -1,19 +1,9 @@
 import pandas as pd
-import json
 from db_interactions import put_data
 import requests
 from bs4 import BeautifulSoup
 import re
 import urlparse
-
-
-def fortune(index):
-	cookies = ["The fortune you seek is in another cookie.",
-		"A closed mouth gathers no feet.",
-		"A conclusion is simply the place where you got tired of thinking.",
-		"A cynic is only a frustrated optimist.",
-		"A foolish man listens to his heart"]	
-	return cookies[index % 5]
 
 def get_json(url):
     parsed = urlparse.urlparse(url)
@@ -43,11 +33,8 @@ class decision_tree():
             predicate_result = predicate_pair[1]
             if predicate(x):
                 if not isinstance(predicate_result, decision_tree):
-                    # print("HIT")
                     return predicate_result
-
                 else:
-                    # print("HIT")
                     return predicate_result.decide(x)
 
     def describe(self, starting_space=""):
@@ -58,7 +45,7 @@ class decision_tree():
             else:
                 print(starting_space + "    " + str(pair[1]))
 
-def chart_mapping_to_json(mapping, measure, data_url):
+def chart_mapping_to_json(mapping, measure, data_url, groupby_candidate):
     res = {}
     charts = {}
     res["measure"] = measure
@@ -74,10 +61,10 @@ def chart_mapping_to_json(mapping, measure, data_url):
                                                       measure})
         cols_lst.append(k)
     cols_lst.append(measure)
-    charts_lst.append({"dim":cols_lst[0], "chart":"table",
+    if groupby_candidate == "":
+        groupby_candidate = cols_lst[0]
+    charts_lst.append({"dim":groupby_candidate, "chart":"table",
                        "columns":cols_lst})
-    # print(json.dumps(res))
-    print("THIS IS CHART MAPPING TO JSON")
     res["charts"] = charts_lst
     return res
 
@@ -96,20 +83,17 @@ def df_decider(data_set_url, measure = None):
 
     df_uploaded_format = {}
     lst_records = []
-    # for i, record in enumerate(df.drop("_id",1).to_dict(orient="records")):
-    #     df_uploaded_format[i] = record
+
     for i, record in enumerate(df.drop("_id",1).to_dict(orient="records")):
         lst_records.append(record)
 
     df_height = len(lst_records)
     df_width = len(df.columns)
-    df_ratio = df_width/df_height
 
     df_uploaded_format["data"] = lst_records
-
+    groupby_candidate = ""
     #put data into cloudant
     put_data(full_data_url, df_uploaded_format)
-
     for field_idx in resp.json()["result"]["fields"]:
         var_type = field_idx["type"]
         var_name = field_idx["id"]
@@ -117,10 +101,12 @@ def df_decider(data_set_url, measure = None):
         if var_name == "_id":
             continue
 
-        if var_name.lower() in ["mth", "year", "month", "day", "quarter"] :
+        if any(substr in var_name.lower() for substr in ["mth", "year", "month", "day", "quarter"] ):
             chart_mapping[var_name] = "time"
+            groupby_candidate = var_name
         elif var_name.lower() in ["town_or_estate", "town", "estate"]:
             chart_mapping[var_name] = "geo"
+            groupby_candidate = var_name
         elif var_name.lower() in ["price", "no_of_graduates"] or len(
             df[var_name].unique()) > len(df)/10 and var_type != "text":
             chart_mapping[var_name] = "real"
@@ -129,18 +115,19 @@ def df_decider(data_set_url, measure = None):
         elif var_type == "text":
             chart_type = cat_count_split.decide(df[var_name])
             chart_mapping[var_name] = chart_type
+            groupby_candidate = var_name
         else:
             chart_type = num_split.decide(df[var_name])
             chart_mapping[var_name] = chart_type
-            print(df[var_name].mean())
+            groupby_candidate = var_name
 
     if measure:
         del chart_mapping[measure]
-        return chart_mapping_to_json(chart_mapping, measure, full_data_url)
+        return chart_mapping_to_json(chart_mapping, measure, full_data_url, groupby_candidate)
     else:
         if predicted_measure:
             del chart_mapping[predicted_measure]
-            return chart_mapping_to_json(chart_mapping, predicted_measure, full_data_url)
+            return chart_mapping_to_json(chart_mapping, predicted_measure, full_data_url, groupby_candidate)
         else:
             raise TypeError("Did not find any measure (real valued number) for y-axis")
 #
